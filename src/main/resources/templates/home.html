@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title＞ Multilingual </title>
+</head>
+<!--Thymeleaf 표현식을 쓰기위한 inline 추가-->
+<script type="text/javascript" th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        /*현재 지정된 locale 정보를 읽어와 select box 값 세팅 */
+        let sel = document.getElementById('lang');
+        let locale = [[${#locale}]];
+
+        for(let i=0; i<sel.options.length; i++){
+            if(sel.options[i].value == locale){
+                sel.options[i].selected = true;
+            }
+        }
+        /*select option value와 정확히 일치하는 값이 없다면 기본 한국어 set*/
+        if(sel.options[sel.selectedIndex].value == ''){
+            sel.options[1].selected = true;
+        }
+        /*현재 지정된 locale 정보를 읽어와 select box 값 세팅 */
+
+        /*select box 값이 바뀌면 바뀐 값을 parameter로
+        SessionLocaleResolver Locale 변경*/
+        sel.addEventListener('change', function(){
+            let lang = sel.options[sel.selectedIndex].value;
+            if(lang != ''){
+                window.location.replace('/?language=' + lang);
+            }
+        })
+    })
+</script>
+<body>
+    <div>
+       <select id="lang">
+           <option></option>
+           <option value="ko">한국어</option>
+           <option value="en">English</option>
+           <option value="ja">日本語</option>
+       </select>
+
+        <h1 th:text="#{msg-001}"></h1>
+        <h1 th:text="#{msg-002}"></h1>
+
+    </div>
+
+
+</body>
+</html>
